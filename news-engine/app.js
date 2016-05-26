@@ -12,6 +12,10 @@ mongoose.connect('localhost:27017/news-engine');
 var solr = require('solr-client');
 var solrClient = solr.createClient('127.0.0.1', 8983, 'news-engine', '/solr');
 
+// Using the flash middleware provided by connect-flash to store messages in session and displaying in templates
+var flash = require('connect-flash');
+app.use(flash());
+
 var routes = require('./routes/index');
 
 var app = express();
