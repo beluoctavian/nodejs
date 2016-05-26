@@ -12,9 +12,6 @@ mongoose.connect('localhost:27017/news-engine');
 var solr = require('solr-client');
 var solrClient = solr.createClient('127.0.0.1', 8983, 'news-engine', '/solr');
 
-var passport = require('passport');
-var expressSession = require('express-session');
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -32,19 +29,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // Configuring Passport
-app.use(expressSession({secret: 'as43n*as:4rras23#DFAd'}));
+var passport = require('passport');
+var expressSession = require('express-session');
+// TODO - Why Do we need this key ?
+app.use(expressSession({secret: 'mySecretKey'}));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.serializeUser(function(user, done) {
-  done(null, user._id);
-});
 
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
-});
+// Initialize Passport
+var initPassport = require('./passport/init');
+initPassport(passport);
 
 app.use('/', routes);
 app.use('/users', users);
