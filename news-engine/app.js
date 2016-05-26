@@ -36,6 +36,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressSession({secret: 'as43n*as:4rras23#DFAd'}));
 app.use(passport.initialize());
 app.use(passport.session());
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
 
 app.use('/', routes);
 app.use('/users', users);
