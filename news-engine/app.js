@@ -6,10 +6,14 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/news-engine');
+var mongoose = require('mongoose');
+mongoose.connect('localhost:27017/news-engine');
+
 var solr = require('solr-client');
 var solrClient = solr.createClient('127.0.0.1', 8983, 'news-engine', '/solr');
+
+var passport = require('passport');
+var expressSession = require('express-session');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -28,10 +32,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(function(req,res,next){
-  req.db = db;
-  next();
-});
+// Configuring Passport
+app.use(expressSession({secret: 'as43n*as:4rras23#DFAd'}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', routes);
 app.use('/users', users);
