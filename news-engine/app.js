@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/news-engine');
+var solr = require('solr-client');
+var solrClient = solr.createClient('127.0.0.1', 8983, 'news-engine', '/solr');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
