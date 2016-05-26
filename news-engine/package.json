@@ -16,6 +16,8 @@
     "mongodb": "^1.4.4",
     "monk": "^1.0.1",
     "mongoskin": "1.4.11",
-    "solr-client": "~0.6.0"
+    "solr-client": "~0.6.0",
+    "passport": "~0.2.0",
+    "passport-local": "~1.0.0"
   }
 }
