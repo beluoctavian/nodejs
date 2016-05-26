@@ -13,7 +13,6 @@ var solr = require('solr-client');
 var solrClient = solr.createClient('127.0.0.1', 8983, 'news-engine', '/solr');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
 
 var app = express();
 
@@ -41,6 +40,8 @@ app.use(passport.session());
 // Initialize Passport
 var initPassport = require('./passport/init');
 initPassport(passport);
+
+var users = require('./routes/users')(passport);
 
 app.use('/', routes);
 app.use('/users', users);
