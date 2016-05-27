@@ -47,9 +47,6 @@ router.get('/users/news/create', function(req, res) {
 });
 
 router.post('/users/news/create', function(req, res) {
-  if (!req.isAuthenticated()) {
-    res.redirect('/users/login');
-  }
   var newsObject = new News({
     title: req.body.title,
     category: req.body.category,
