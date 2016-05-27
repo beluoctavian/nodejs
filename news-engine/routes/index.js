@@ -24,12 +24,14 @@ router.post('/users/register', function(req, res) {
 });
 
 router.get('/users/login', function(req, res) {
-  res.render('users/login', { user : req.user });
+  res.render('users/login', { message: req.flash('error') });
 });
 
-router.post('/users/login', passport.authenticate('local'), function(req, res) {
-  res.redirect('/users/home');
-});
+router.post('/users/login', passport.authenticate('local', {
+  successRedirect: '/users/home',
+  failureRedirect: '/users/login',
+  failureFlash: true
+}));
 
 router.get('/users/logout', function(req, res) {
   req.logout();
