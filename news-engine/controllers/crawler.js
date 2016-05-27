@@ -15,7 +15,17 @@ app.get('/scrape', function(req, res){
             var $ = cheerio.load(html);
 
             var title, release, rating;
-            var json = { title : "", release : "", rating : ""};
+            var json = { link : ""};
+
+            $('.container-img').filter(function(){
+
+                var data = $(this);
+
+                title = data.children().first().attr('href').text();
+
+                // Once we have our title, we'll store it to the our json object.
+                json.title = title;
+            })
         }
     })
 
