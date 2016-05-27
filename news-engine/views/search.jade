@@ -18,21 +18,27 @@ block content
                   input(type='text', name='q' class='form-control pull-left', placeholder='Search text...', value='#{text}')
                   button(class='btn btn-primary pull-left', type='submit') Search
           div
+            - console.log(news)
             if news
               ul.list-group
               each newsObject in news
-                li.list-group-item
-                  div.media
-                    div.media-body
-                      h4.media-heading
-                        a(href='/news/#{newsObject.id}') #{newsObject.title}
-                      div.badges
-                        div.badge.pull-left.category Category&nbsp;
-                          b #{newsObject.category}
-                        - var date = new Date(newsObject.date)
-                        div.badge.pull-left.date
-                          b #{date.getDate()}-#{date.getMonth()}-#{date.getFullYear()}
-                      div.clearfix
-                      - var content = newsObject.content.substring(0, 100)
-                      div.content #{content}... -&nbsp;
-                        a(href='/news/#{newsObject.id}') See more
+                if newsObject.id
+                  if newsObject.title
+                    li.list-group-item
+                      div.media
+                        div.media-body
+                          h4.media-heading
+                            a(href='/news/#{newsObject.id}') #{newsObject.title}
+                          div.badges
+                            if newsObject.category
+                              div.badge.pull-left.category Category&nbsp;
+                                b #{newsObject.category}
+                            if newsObject.date
+                              - var date = new Date(newsObject.date)
+                              div.badge.pull-left.date
+                                b #{date.getDate()}-#{date.getMonth()}-#{date.getFullYear()}
+                          div.clearfix
+                          if newsObject.content
+                            - var content = newsObject.content.substring(0, 100)
+                            div.content #{content}... -&nbsp;
+                              a(href='/news/#{newsObject.id}') See more

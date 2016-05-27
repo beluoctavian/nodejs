@@ -89,17 +89,17 @@ router.get('/search', function(req, res) {
     solrClient.search(query, function (err, obj) {
       if(err) {
         console.log(err);
+        res.render('search', { user : req.user, news: [], text: text });
       }
       else {
         news = obj.response.docs;
+        res.render('search', { user : req.user, news: news, text: text });
       }
     });
   }
   else {
-    text = '';
+    res.render('search', { user : req.user, news: [], text: '' });
   }
-  console.log(news);
-  res.render('search', { user : req.user, news: news, text: text });
 });
 
 /* User routes */
