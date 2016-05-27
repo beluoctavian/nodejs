@@ -20,7 +20,7 @@ router.get('/news', function(req, res) {
     });
 
     res.render('news/listing', { user : req.user, news: newsMap, title: 'News listing' });
-  });
+  }).sort('-date').limit(10);
 });
 
 router.get('/news/:id', function(req, res) {
@@ -49,7 +49,8 @@ router.post('/users/news/create', function(req, res) {
   var newsObject = new News({
     title: req.body.title,
     category: req.body.category,
-    content: req.body.content
+    content: req.body.content,
+    date: Date.now()
   });
   newsObject.save(function(err) {
     if (err) throw err;
