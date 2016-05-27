@@ -42,7 +42,7 @@ router.post('/users/news/create', function(req, res) {
   newsObject.save(function(err) {
     if (err) throw err;
   });
-  res.redirect('/users/home');
+  res.redirect('/news/' + newsObject._id);
 });
 
 router.get('/news/:id', function(req, res) {
