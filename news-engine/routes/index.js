@@ -3,6 +3,7 @@ var passport = require('passport');
 var User = require('../models/user');
 var News = require('../models/news');
 var router = express.Router();
+var solr = require('solr-client');
 
 /* Default routes */
 router.get('/', function (req, res) {
@@ -55,6 +56,26 @@ router.post('/users/news/create', function(req, res) {
   newsObject.save(function(err) {
     if (err) throw err;
   });
+
+  var solrClient = solr.createClient('127.0.0.1', 8983, 'news-engine', '/solr');
+  solrClient.autoCommit = true;
+
+  var solrDoc = {
+    id: newsObject._id,
+    title: newsObject.title,
+    category: newsObject.category,
+    content: newsObject.content,
+    date: newsObject.date
+  };
+  
+  solrClient.add([solrDoc], function(err,obj){
+    if(err){
+      console.log(err);
+    }else{
+      console.log(obj);
+    }
+  });
+
   res.redirect('/news/' + newsObject._id);
 });
 
