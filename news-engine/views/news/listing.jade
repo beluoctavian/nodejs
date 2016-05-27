@@ -1,0 +1,28 @@
+extends ../layout
+
+block content
+  div.row
+    div.col-xs-12
+      ol.breadcrumb
+        li
+          a(href='/') Home
+        li.active News
+  div.row
+    div.col-xs-12
+      div.panel.panel-primary
+        div.panel-heading
+          h2.page-title Ultimele stiri
+        div.panel-body
+          if news
+            ul.list-group
+            each newsObject in news
+              li.list-group-item
+                div.media
+                  div.media-body
+                    h4.media-heading
+                      a(href='/news/#{newsObject._id}') #{newsObject.title}
+                    div.badge.category Category&nbsp;
+                      b #{newsObject.category}
+                    - var content = newsObject.content.substring(0, 100)
+                    div.content #{content}... -&nbsp;
+                      a(href='/news/#{newsObject._id}') See more

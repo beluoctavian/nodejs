@@ -10,6 +10,19 @@ router.get('/', function (req, res) {
 });
 
 /* News routes */
+router.get('/news', function(req, res) {
+  News.find({}, function(err, news) {
+    if (err) throw err;
+    var newsMap = {};
+
+    news.forEach(function(newsObject) {
+      newsMap[newsObject._id] = newsObject;
+    });
+
+    res.render('news/listing', { user : req.user, news: newsMap });
+  });
+});
+
 router.get('/users/news/create', function(req, res) {
   if (!req.isAuthenticated()) {
     res.redirect('/users/login');

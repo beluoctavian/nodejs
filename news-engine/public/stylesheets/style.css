@@ -10,9 +10,11 @@ a {
 #content {
   margin-top: 20px;
 }
-
-.breadcrumb {
-  margin-bottom: 0;
+.badge {
+  font-weight: normal;
+}
+.page-title {
+  margin-top: 0;
 }
 .category {
   margin-bottom: 10px;
