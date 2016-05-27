@@ -16,7 +16,6 @@ var solrClient = solr.createClient('127.0.0.1', 8983, 'news-engine', '/solr');
 
 var routes = require('./routes/index');
 
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
