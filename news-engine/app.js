@@ -12,7 +12,6 @@ mongoose.connect('localhost:27017/news-engine');
 var solr = require('solr-client');
 var solrClient = solr.createClient('127.0.0.1', 8983, 'news-engine', '/solr');
 
-var routes = require('./routes/index');
 
 var app = express();
 
@@ -44,10 +43,9 @@ app.use(passport.session());
 var initPassport = require('./passport/init');
 initPassport(passport);
 
-var users = require('./routes/users')(passport);
+var routes = require('./routes/index')(passport);
 
 app.use('/', routes);
-app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
