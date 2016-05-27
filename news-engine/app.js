@@ -14,7 +14,6 @@ mongoose.connect('localhost:27017/news-engine');
 
 var routes = require('./routes/index');
 
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
