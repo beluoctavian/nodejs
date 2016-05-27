@@ -6,7 +6,7 @@ block content
       div.panel.panel-default
         div.panel-heading Sign in
         div.panel-body
-          if message.length
+          if message
             div.alert.alert-danger.alert-dismissible
               button(class='close', type='button', data-dismiss='alert', aria-label='Close')
                 span(aria-hidden='true') &times;
@@ -18,4 +18,4 @@ block content
               input(type='password', name='password' class='form-control', placeholder='Password', required)
             div.form-group
               button(class='btn btn-primary', type='submit') Sign in
-              a(href='/users/signup', class='btn btn-info pull-right') Create an account
+              a(href='/users/register', class='btn btn-info pull-right') Create an account

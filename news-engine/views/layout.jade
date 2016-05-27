@@ -26,10 +26,10 @@ html
           ul.nav.navbar-nav.navbar-right
             if user
               li
-                a(href='/users/signout') Sign out
+                a(href='/users/logout') Sign out
             else
               li
-                a(href='/users') Sign in
+                a(href='/users/login') Sign in
     #content.container
       block content
 
