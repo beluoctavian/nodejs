@@ -14,3 +14,6 @@ body {
 .category {
   margin-bottom: 10px;
 }
+.badges .badge {
+  margin-right: 5px;
+}
