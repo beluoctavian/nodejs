@@ -23,13 +23,25 @@ router.post('/users/news/create', function(req, res) {
   }
   var newsObject = new News({
     title: req.body.title,
-    category: req.body.title,
-    content: req.body.title
+    category: req.body.category,
+    content: req.body.content
   });
   newsObject.save(function(err) {
     if (err) throw err;
   });
   res.redirect('/users/home');
+});
+
+router.get('/news/:id', function(req, res) {
+  var query = News.findById(req.params.id, function(err, news) {
+    if (err) {
+      res.status(404);
+      res.render('errors/404');
+    }
+  }).exec();
+  query.then(function (newsObject) {
+    res.render('news/view', { user : req.user, newsObject: newsObject });
+  });
 });
 
 /* User routes */
