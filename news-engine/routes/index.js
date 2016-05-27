@@ -8,10 +8,14 @@ router.get('/', function (req, res) {
 });
 
 router.get('/users/register', function(req, res) {
-  res.render('users/register', { });
+  if (req.isAuthenticated()) {
+    res.redirect('/users/home');
+  }
+  res.render('users/register', { user : req.user });
 });
 
 router.post('/users/register', function(req, res) {
+
   User.register(new User({ username : req.body.username }), req.body.password, function(err, user) {
     if (err) {
       return res.render('users/register', { user : user, message: err.message });
@@ -24,7 +28,10 @@ router.post('/users/register', function(req, res) {
 });
 
 router.get('/users/login', function(req, res) {
-  res.render('users/login', { message: req.flash('error') });
+  if (req.isAuthenticated()) {
+    res.redirect('/users/home');
+  }
+  res.render('users/login', { user : req.user, message: req.flash('error') });
 });
 
 router.post('/users/login', passport.authenticate('local', {
