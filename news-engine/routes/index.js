@@ -1,6 +1,7 @@
 var express = require('express');
 var passport = require('passport');
 var User = require('../models/user');
+var News = require('../models/news');
 var router = express.Router();
 
 /* Default routes */
@@ -14,6 +15,21 @@ router.get('/users/news/create', function(req, res) {
     res.redirect('/users/login');
   }
   res.render('news/create', { user : req.user, message: req.flash('error') });
+});
+
+router.post('/users/news/create', function(req, res) {
+  if (!req.isAuthenticated()) {
+    res.redirect('/users/login');
+  }
+  var newsObject = new News({
+    title: req.body.title,
+    category: req.body.title,
+    content: req.body.title
+  });
+  newsObject.save(function(err) {
+    if (err) throw err;
+  });
+  res.redirect('/users/home');
 });
 
 /* User routes */
