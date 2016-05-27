@@ -5,6 +5,9 @@ var News = require('../models/news');
 var router = express.Router();
 var solr = require('solr-client');
 
+var solrClient = solr.createClient('127.0.0.1', 8983, 'news-engine', '/solr');
+solrClient.autoCommit = true;
+
 /* Default routes */
 router.get('/', function (req, res) {
   res.render('index', { user : req.user, title: 'Very cool news engine.' });
@@ -57,9 +60,6 @@ router.post('/users/news/create', function(req, res) {
     if (err) throw err;
   });
 
-  var solrClient = solr.createClient('127.0.0.1', 8983, 'news-engine', '/solr');
-  solrClient.autoCommit = true;
-
   var solrDoc = {
     id: newsObject._id,
     title: newsObject.title,
@@ -81,7 +81,25 @@ router.post('/users/news/create', function(req, res) {
 
 /* Search */
 router.get('/search', function(req, res) {
-  res.render('search', { user : req.user });
+  var text = req.param('q');
+  var news = [];
+  if (typeof(text) !== 'undefined') {
+    var query = solrClient.createQuery()
+        .q(text);
+    solrClient.search(query, function (err, obj) {
+      if(err) {
+        console.log(err);
+      }
+      else {
+        news = obj.response.docs;
+      }
+    });
+  }
+  else {
+    text = '';
+  }
+  console.log(news);
+  res.render('search', { user : req.user, news: news, text: text });
 });
 
 /* User routes */
