@@ -1,36 +1,27 @@
-var express = require('express');
-var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
-var app = express();
+var URL = require('url-parse');
 
-app.get('/scrape', function(req, res){
+var webpage = "http://www.news.ro";
 
-    url = 'http://www.news.ro/';
+request(webpage, function(error, response, body) {
 
-    request(url, function(error, response, html){
+    if(response.statusCode === 200) {
 
-        if(!error){
+        var $ = cheerio.load(body);
 
-            var $ = cheerio.load(html);
+        var links = [];
+        var titles = [];
 
-            var title, release, rating;
-            var json = { link : ""};
+        $('.container-img').each(function(){
 
-            $('.container-img').filter(function(){
+            var data = $(this);
 
-                var data = $(this);
+            var link = data.children.first().attr('href');
+            links.push('http://www.news.ro' + link);
 
-                title = data.children().first().attr('href').text();
-
-                // Once we have our title, we'll store it to the our json object.
-                json.title = title;
-            })
-        }
-    })
-
-})
-
-app.listen('8081')
-console.log('');
-exports = module.exports = app;
+            var title = data.children.first().attr('title');
+            titles.push(title);
+        })
+    }
+});
