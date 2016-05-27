@@ -24,8 +24,12 @@ html
             li
               a(href='/news') News
           ul.nav.navbar-nav.navbar-right
-            li
-              a(href='/users') Sign in
+            if user
+              li
+                a(href='/users/signout') Sign out
+            else
+              li
+                a(href='/users') Sign in
     #content.container
       block content
 
