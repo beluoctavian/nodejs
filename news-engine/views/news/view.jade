@@ -2,4 +2,16 @@ extends ../layout
 
 block content
   div.row
-    div.col-xs-12 #{newsObject.title}
+    div.col-xs-12
+      ol.breadcrumb
+        li
+          a(href='/') Home
+        li
+          a(href='/news') News
+        li.active #{newsObject.title}
+  div.row
+    div.col-xs-12
+      h1 #{newsObject.title}
+      div.badge.category Category: #{newsObject.category}
+      div.panel.panel-default
+        div.panel-body #{newsObject.content}
