@@ -19,7 +19,19 @@ router.get('/news', function(req, res) {
       newsMap[newsObject._id] = newsObject;
     });
 
-    res.render('news/listing', { user : req.user, news: newsMap });
+    res.render('news/listing', { user : req.user, news: newsMap, title: 'News listing' });
+  });
+});
+
+router.get('/news/:id', function(req, res) {
+  var query = News.findById(req.params.id, function(err, news) {
+    if (err) {
+      res.status(404);
+      res.render('errors/404');
+    }
+  }).exec();
+  query.then(function (newsObject) {
+    res.render('news/view', { user : req.user, newsObject: newsObject, title: newsObject.title });
   });
 });
 
@@ -45,17 +57,6 @@ router.post('/users/news/create', function(req, res) {
   res.redirect('/news/' + newsObject._id);
 });
 
-router.get('/news/:id', function(req, res) {
-  var query = News.findById(req.params.id, function(err, news) {
-    if (err) {
-      res.status(404);
-      res.render('errors/404');
-    }
-  }).exec();
-  query.then(function (newsObject) {
-    res.render('news/view', { user : req.user, newsObject: newsObject });
-  });
-});
 
 /* User routes */
 router.get('/users/home', function(req, res) {
