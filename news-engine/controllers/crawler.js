@@ -2,16 +2,25 @@ var express = require('express');
 var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
-var app     = express();
+var app = express();
 
 app.get('/scrape', function(req, res){
 
-    
+    url = 'http://www.news.ro/';
+
+    request(url, function(error, response, html){
+
+        if(!error){
+
+            var $ = cheerio.load(html);
+
+            var title, release, rating;
+            var json = { title : "", release : "", rating : ""};
+        }
+    })
 
 })
 
 app.listen('8081')
-
-console.log('Magic happens on port 8081');
-
+console.log('');
 exports = module.exports = app;
