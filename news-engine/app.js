@@ -7,12 +7,10 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var solr = require('solr-client');
 var flash = require('connect-flash');
 
 // DB connection
 mongoose.connect('localhost:27017/news-engine');
-var solrClient = solr.createClient('127.0.0.1', 8983, 'news-engine', '/solr');
 
 var routes = require('./routes/index');
 

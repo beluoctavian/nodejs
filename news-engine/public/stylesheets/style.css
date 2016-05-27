@@ -14,3 +14,10 @@ body {
 .category {
   margin-bottom: 10px;
 }
+.badges .badge {
+  margin-right: 5px;
+}
+.search-form input {
+  max-width: 300px;
+  margin: 0 10px 10px 0;
+}

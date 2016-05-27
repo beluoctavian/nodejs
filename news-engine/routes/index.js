@@ -3,6 +3,10 @@ var passport = require('passport');
 var User = require('../models/user');
 var News = require('../models/news');
 var router = express.Router();
+var solr = require('solr-client');
+
+var solrClient = solr.createClient('127.0.0.1', 8983, 'news-engine', '/solr');
+solrClient.autoCommit = true;
 
 /* Default routes */
 router.get('/', function (req, res) {
@@ -20,7 +24,7 @@ router.get('/news', function(req, res) {
     });
 
     res.render('news/listing', { user : req.user, news: newsMap, title: 'News listing' });
-  });
+  }).sort('-date').limit(10);
 });
 
 router.get('/news/:id', function(req, res) {
@@ -43,20 +47,57 @@ router.get('/users/news/create', function(req, res) {
 });
 
 router.post('/users/news/create', function(req, res) {
-  if (!req.isAuthenticated()) {
-    res.redirect('/users/login');
-  }
   var newsObject = new News({
     title: req.body.title,
     category: req.body.category,
-    content: req.body.content
+    content: req.body.content,
+    date: Date.now()
   });
   newsObject.save(function(err) {
     if (err) throw err;
   });
+
+  var solrDoc = {
+    id: newsObject._id,
+    title: newsObject.title,
+    category: newsObject.category,
+    content: newsObject.content,
+    date: newsObject.date
+  };
+
+  solrClient.add([solrDoc], function(err,obj){
+    if(err){
+      console.log(err);
+    }else{
+      console.log(obj);
+    }
+  });
+
   res.redirect('/news/' + newsObject._id);
 });
 
+/* Search */
+router.get('/search', function(req, res) {
+  var text = req.param('q');
+  var news = [];
+  if (typeof(text) !== 'undefined') {
+    var query = solrClient.createQuery()
+        .q(text);
+    solrClient.search(query, function (err, obj) {
+      if(err) {
+        console.log(err);
+        res.render('search', { user : req.user, news: [], text: text });
+      }
+      else {
+        news = obj.response.docs;
+        res.render('search', { user : req.user, news: news, text: text });
+      }
+    });
+  }
+  else {
+    res.render('search', { user : req.user, news: [], text: '' });
+  }
+});
 
 /* User routes */
 router.get('/users/home', function(req, res) {

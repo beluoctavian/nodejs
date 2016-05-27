@@ -15,6 +15,11 @@ block content
         div.panel-heading
           h2.page-title #{newsObject.title}
         div.panel-body
-          div.badge.category Category&nbsp;
-            b #{newsObject.category}
+          div.badges
+            div.badge.pull-left.category Category&nbsp;
+              b #{newsObject.category}
+            - var date = new Date(newsObject.date)
+            div.badge.pull-left.date
+              b #{date.getDate()}-#{date.getMonth()}-#{date.getFullYear()}
+          div.clearfix
           div #{newsObject.content}

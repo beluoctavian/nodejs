@@ -21,8 +21,13 @@ block content
                   div.media-body
                     h4.media-heading
                       a(href='/news/#{newsObject._id}') #{newsObject.title}
-                    div.badge.category Category&nbsp;
-                      b #{newsObject.category}
+                    div.badges
+                      div.badge.pull-left.category Category&nbsp;
+                        b #{newsObject.category}
+                      - var date = new Date(newsObject.date)
+                      div.badge.pull-left.date
+                        b #{date.getDate()}-#{date.getMonth()}-#{date.getFullYear()}
+                    div.clearfix
                     - var content = newsObject.content.substring(0, 100)
                     div.content #{content}... -&nbsp;
                       a(href='/news/#{newsObject._id}') See more
