@@ -25,10 +25,16 @@ html
               a(href='/news') News
           ul.nav.navbar-nav.navbar-right
             if user
-              li
-                a(href='/users/home') User area
-              li
-                a(href='/users/logout') Sign out
+              li.dropdown
+                a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false') User menu&nbsp;
+                  span.caret
+                ul.dropdown-menu
+                  li
+                    a(href='/users/home') User area
+                  li
+                    a(href='/users/news/create') Add news
+                  li
+                    a(href='/users/logout') Sign out
             else
               li
                 a(href='/users/login') Sign in

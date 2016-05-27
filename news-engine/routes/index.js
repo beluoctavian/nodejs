@@ -8,8 +8,15 @@ router.get('/', function (req, res) {
   res.render('index', { user : req.user, title: 'Very cool news engine.' });
 });
 
-/* User routes */
+/* News routes */
+router.get('/users/news/create', function(req, res) {
+  if (!req.isAuthenticated()) {
+    res.redirect('/users/login');
+  }
+  res.render('news/create', { user : req.user, message: req.flash('error') });
+});
 
+/* User routes */
 router.get('/users/home', function(req, res) {
   if (!req.isAuthenticated()) {
     res.redirect('/users/login');

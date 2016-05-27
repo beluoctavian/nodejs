@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+  div.row
+    div.col-xs-12
+      div.panel.panel-default
+        div.panel-heading Create news
+        div.panel-body
+          if message.length
+            div.alert.alert-danger.alert-dismissible
+              button(class='close', type='button', data-dismiss='alert', aria-label='Close')
+                span(aria-hidden='true') &times;
+              span #{message}
+          form(class='form', action='/users/news/create', method='POST')
+            div.row
+              div.form-group.col-xs-12.col-sm-6.col-md-4
+                input(type='text', name='title' class='form-control', placeholder='Title', required, autofocus)
+            div.row
+              div.form-group.col-xs-12.col-sm-6.col-md-4
+                input(type='text', name='category' class='form-control', placeholder='Category', required)
+            div.row
+              div.form-group.col-xs-12
+                textarea(name='content' class='form-control', placeholder='Content...', rows='4', required)
+            div.row
+              div.form-group.col-xs-12
+                button(class='btn btn-primary', type='submit') Add news
