@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  div.row
+    div.col-xs-12
+      ol.breadcrumb
+        li
+          a(href='/') Home
+        li.active Search
+  div.row
+    div.col-xs-12
+      div.panel.panel-primary
+        div.panel-body
+          form(class='form search-form', action='/search', method='GET')
+            div.row
+              div.form-group.col-xs-12
+                input(type='text', name='q' class='form-control pull-left', placeholder='Search text...')
+                button(class='btn btn-primary pull-left', type='submit') Search

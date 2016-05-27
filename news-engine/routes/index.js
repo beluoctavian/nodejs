@@ -67,7 +67,7 @@ router.post('/users/news/create', function(req, res) {
     content: newsObject.content,
     date: newsObject.date
   };
-  
+
   solrClient.add([solrDoc], function(err,obj){
     if(err){
       console.log(err);
@@ -79,6 +79,10 @@ router.post('/users/news/create', function(req, res) {
   res.redirect('/news/' + newsObject._id);
 });
 
+/* Search */
+router.get('/search', function(req, res) {
+  res.render('search', { user : req.user });
+});
 
 /* User routes */
 router.get('/users/home', function(req, res) {
