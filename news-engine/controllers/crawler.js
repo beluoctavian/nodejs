@@ -41,10 +41,29 @@ request(webpage, function(error, response, body) {
 
                 var data2 = $(this);
 
-                var news = data2.children('p').text();
+                news = data2.children('p').text();
                 news_list.push(news);
 
             })
         });
+
+        var options = {
+            path: '/users/news/create',
+            method: 'POST',
+            headers: headers,
+            form: {'title': title, 'category': category, 'content': news_list}
+        }
+
+        request(options, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var encoding = response.headers['content-encoding']
+                if(encoding && encoding.indexOf('gzip')>=0) {
+                    body = uncompress(body);
+                }
+                body = body.toString('utf-8');
+
+                var json_body = JSON.parse(body);
+            }
+        })
     })
 });
